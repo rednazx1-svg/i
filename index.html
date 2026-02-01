@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Setup | Onboarding</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+        }
+        
+        .input-focus:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .segmented-control {
+            display: flex;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 4px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .segmented-control input[type="radio"] {
+            display: none;
+        }
+        
+        .segmented-control label {
+            flex: 1;
+            padding: 10px 16px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+            color: #64748b;
+        }
+        
+        .segmented-control input[type="radio"]:checked + label {
+            background-color: white;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .debug-panel {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .debug-content {
+            max-height: 500px;
+            transition: max-height 0.3s ease;
+        }
+        
+        .debug-panel.collapsed .debug-content {
+            max-height: 0;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-left: 4px solid #10b981;
+        }
+        
+        .error-message {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-[560px]">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-sm border border-gray-100 mb-4">
+                <i data-feather="user-plus" class="w-8 h-8 text-primary-600"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Client Setup</h1>
+            <p class="text-secondary-600">Complete the form below to onboard your business</p>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
+            <form id="clientForm" novalidate>
+                <!-- Business Name -->
+                <div class="mb-6">
+                    <label for="business_name" class="block text-sm font-medium text-gray-700 mb-2">
+                        Business Name <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="text"
+                            id="business_name"
+                            required
+                            class="w-full px-4 py-3 bg-secondary-50 border border-gray-300 rounded-lg input-focus transition-all duration-200 focus:outline-none text-gray-900 placeholder-gray-400"
+                            placeholder="Enter your business name"
+                        >
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i data-feather="briefcase" class="w-5 h-5 text-secondary-400"></i>
+                        </div>
+                    </div>
+                    <p class="mt-1 text-xs text-secondary-500">This will generate your unique client ID</p>
+                </div>
+
+                <!-- Contact Email -->
+                <div class="mb-6">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                        Contact Email <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="email"
+                            id="email"
+                            required
+                            class="w-full px-4 py-3 bg-secondary-50 border border-gray-300 rounded-lg input-focus transition-all duration-200 focus:outline-none text-gray-900 placeholder-gray-400"
+                            placeholder="you@business.com"
+                        >
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i data-feather="mail" class="w-5 h-5 text-secondary-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="mb-6">
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+                       Business Phone Number <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="tel"
+                            id="phone"
+                            class="w-full px-4 py-3 bg-secondary-50 border border-gray-300 rounded-lg input-focus transition-all duration-200 focus:outline-none text-gray-900 placeholder-gray-400"
+                            placeholder="+1 (555) 123-4567"
+                        >
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i data-feather="phone" class="w-5 h-5 text-secondary-400"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Booking Link -->
+                <div class="mb-6">
+                    <label for="booking_link" class="block text-sm font-medium text-gray-700 mb-2">
+                        Booking Link <span class="text-secondary-500 font-normal">(Optional)</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="url"
+                            id="booking_link"
+                            class="w-full px-4 py-3 bg-secondary-50 border border-gray-300 rounded-lg input-focus transition-all duration-200 focus:outline-none text-gray-900 placeholder-gray-400"
+                            placeholder="https://calendly.com/your-business"
+                        >
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i data-feather="link" class="w-5 h-5 text-secondary-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Type -->
+                <div class="mb-6">
+                    <label for="service_type" class="block text-sm font-medium text-gray-700 mb-2">
+                        Service Type <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <select
+                            id="service_type"
+                            required
+                            class="w-full px-4 py-3 bg-secondary-50 border border-gray-300 rounded-lg input-focus transition-all duration-200 focus:outline-none text-gray-900 appearance-none"
+                        >
+                            <option value="" disabled selected>Select your service</option>
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="HVAC">HVAC</option>
+                            <option value="Electrical">Electrical</option>
+                            <option value="Roofing">Roofing</option>
+                            <option value="Handyman">Handyman</option>
+                            <option value="Locksmith">Locksmith</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i data-feather="chevron-down" class="w-5 h-5 text-secondary-400"></i>
+                        </div>
+                    </div>
+                    <p class="mt-1 text-xs text-secondary-500">This helps us configure your setup correctly</p>
+                </div>
+
+                <!-- Service Area -->
+                <div class="mb-6">
+                    <label for="service_area" class="block text-sm font-medium text-gray-700 mb-2">
+                        Service Area <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="text"
+                            id="service_area"
+                            required
+                            class="w-full px-4 py-3 bg-secondary-50 border border-gray-300 rounded-lg input-focus transition-all duration-200 focus:outline-none text-gray-900 placeholder-gray-400"
+                            placeholder="City or region you serve (e.g. Springfield and nearby areas)"
+                        >
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i data-feather="map-pin" class="w-5 h-5 text-secondary-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lead Handling Method -->
+                <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        How should we handle your leads? <span class="text-red-500">*</span>
+                    </label>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <input
+                                type="radio"
+                                id="lead_handling_website"
+                                name="lead_handling_method"
+                                value="website"
+                                required
+                                class="mt-1"
+                            >
+                            <label for="lead_handling_website" class="ml-3 block">
+                                <span class="font-medium text-gray-900">Build me a simple website</span>
+                                <p class="text-sm text-secondary-500 mt-1">We’ll create and host a simple site for you</p>
+                            </label>
+                        </div>
+                        <div class="flex items-start">
+                            <input
+                                type="radio"
+                                id="lead_handling_email"
+                                name="lead_handling_method"
+                                value="email_forwarding"
+                                required
+                                class="mt-1"
+                            >
+                            <label for="lead_handling_email" class="ml-3 block">
+                                <span class="font-medium text-gray-900">Forward leads from my existing email</span>
+                                <p class="text-sm text-secondary-500 mt-1">You’ll forward your inquiry emails to our system</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+<!-- SMS Toggle (Conditional) -->
+                <div id="smsSection" class="mb-8 hidden fade-in">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        SMS for urgent leads?
+                    </label>
+                    <div class="segmented-control">
+                        <input type="radio" id="smsNo" name="sms" value="FALSE" checked>
+                        <label for="smsNo" class="flex items-center justify-center gap-2">
+                            <i data-feather="x-circle" class="w-4 h-4"></i>
+                            No
+                        </label>
+                        <input type="radio" id="smsYes" name="sms" value="TRUE">
+                        <label for="smsYes" class="flex items-center justify-center gap-2">
+                            <i data-feather="check-circle" class="w-4 h-4"></i>
+                            Yes
+                        </label>
+                    </div>
+                    <p class="mt-2 text-sm text-secondary-500">Enable SMS notifications for high-priority leads</p>
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98]"
+                >
+                    <span class="flex items-center justify-center gap-2">
+                        <i data-feather="send" class="w-5 h-5"></i>
+                        Complete Setup
+                    </span>
+                </button>
+            </form>
+
+            <!-- Messages -->
+            <div id="messageContainer" class="mt-6"></div>
+        </div>
+<!-- Support Note -->
+        <div class="mt-6 text-center">
+            <p class="text-sm text-secondary-500">
+                <i data-feather="help-circle" class="w-4 h-4 inline mr-1"></i>
+                Need help? Contact support@askify.ca
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
